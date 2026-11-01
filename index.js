@@ -18,10 +18,23 @@ export async function connectToMongoDB() {
     console.dir(err);
   }
 }
-connectToMongoDB();
-app.get('/facilities',(req,res)=>{
+const connectClient = await connectToMongoDB();
+const db = connectClient.db("sport-nest");
+const facilitiesCollection = db.collection("facilities");
 
-})
+app.post("/facilities", async (req, res) => {
+  // step 01
+  const facilitiesData = req.body;
+  // step 02
+  const result = facilitiesCollection.insertOne(facilitiesData);
+  // step 03
+  res.send(result);
+});
+app.get("/facilities", async (req, res) => {
+  const result = await facilitiesCollection.find().toArray();
+  res.send(result);
+});
+
 app.get("/", (req, res) => {
   res.send("hello world");
 });
