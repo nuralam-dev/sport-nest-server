@@ -26,7 +26,7 @@ app.post("/facilities", async (req, res) => {
   // step 01
   const facilitiesData = req.body;
   // step 02
-  const result = facilitiesCollection.insertOne(facilitiesData);
+  const result =await facilitiesCollection.insertOne(facilitiesData);
   // step 03
   res.send(result);
 });
